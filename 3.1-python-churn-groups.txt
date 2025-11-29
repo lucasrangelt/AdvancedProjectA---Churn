@@ -1,0 +1,80 @@
+TenureGroup
+Less than 6 months    1481
+More than 5 years     1407
+1 to 2 years          1024
+2 to 3 years           832
+4 to 5 years           832
+3 to 4 years           762
+6 months to 1 year     705
+gender
+Female    0.269209
+Male      0.261603
+Name: count, dtype: float64 SeniorCitizen
+0    0.236062
+1    0.416813
+Name: count, dtype: float64 Partner
+No     0.329580
+Yes    0.196649
+Name: count, dtype: float64 Dependents
+No     0.312791
+Yes    0.154502
+Name: count, dtype: float64 TenureGroup
+Less than 6 months    0.529372
+6 months to 1 year    0.358865
+1 to 2 years          0.287109
+2 to 3 years          0.216346
+3 to 4 years          0.190289
+4 to 5 years          0.144231
+More than 5 years     0.066098
+Name: count, dtype: float64 PhoneService
+Yes    0.267096
+No     0.249267
+Name: count, dtype: float64 MultipleLines
+No                  0.250442
+No phone service    0.249267
+Yes                 0.286099
+Name: count, dtype: float64 InternetService
+Fiber optic    0.418928
+DSL            0.189591
+No             0.074050
+Name: count, dtype: float64 OnlineSecurity
+No                     0.417667
+Yes                    0.146112
+No internet service    0.074050
+Name: count, dtype: float64 OnlineBackup
+No                     0.399288
+Yes                    0.215315
+No internet service    0.074050
+Name: count, dtype: float64 DeviceProtection
+No                     0.391276
+Yes                    0.225021
+No internet service    0.074050
+Name: count, dtype: float64 TechSupport
+No                     0.416355
+Yes                    0.151663
+No internet service    0.074050
+Name: count, dtype: float64 StreamingTV
+No                     0.335231
+Yes                    0.300702
+No internet service    0.074050
+Name: count, dtype: float64 StreamingMovies
+No                     0.336804
+Yes                    0.299414
+No internet service    0.074050
+Name: count, dtype: float64 Contract
+Month-to-month    0.427097
+One year          0.112695
+Name: count, dtype: float64 PaperlessBilling
+Yes    0.335651
+No     0.163301
+Name: count, dtype: float64 PaymentMethod
+Electronic check             0.452854
+Mailed check                 0.191067
+Bank transfer (automatic)    0.167098
+Credit card (automatic)      0.152431
+Name: count, dtype: float64 MonthlyGroup
+Higher Than Average    0.345399
+Lower Than Average     0.164744
+Name: count, dtype: float64 TotalGroup
+Lower Than Average     0.316890
+Higher Than Average    0.179652
