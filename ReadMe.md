@@ -200,6 +200,11 @@ A lista também mostra que clientes que contratam os serviços como segurança o
 
 E por último, concluímos que os contratos realmente diminuem absurdamente a quantidade de churn, com o contrato de um ano reduzindo a probabilidade base em 50% e o contrato de dois anos reduz em 77%. O tempo de permanência também reduz em 53% a chances de churn a cada desvio padrão (nesse caso, seria cerca de 24 meses).
 
+![logreg_output.png](logreg_output.png)
+Quanto aos outros elementos da imagem, logo abaixo da lista, temos as métricas de classificação. Pelo fato de o modelo se basear em uma tabela de churn com muito mais clientes permanecendo do que saindo, temos um desbalanceamento de classe. Por isso, foi usado o atributo class_weight="balanced" que busca atribuir a mesma importância tanto para clientes que dão churn quanto para os que não dão. Isso sacrifica um pouco da precisão para obter mais recall nos clientes que dão churn.
+
+No final da imagem temos uma simples matriz de confusão.
+
 # O Que Aprendi e Conclusões
 
 Aprendi a utilizar o editor do Power Query no Power BI, melhorei meus conhecimentos práticos sobre pandas e matplotlib, SQL, e ferramentas gerais dentro do próprio Power BI. Personalizei as páginas a fim de deixá-las limpas e fáceis de se visualizar. Soube escolher dados relevantes no processo de levantamento de dados.
