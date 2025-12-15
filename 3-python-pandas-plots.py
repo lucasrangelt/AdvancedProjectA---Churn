@@ -3,20 +3,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 import ast
 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.tools.tools import add_constant
+
 df = pd.read_csv("WA_Fn-UseC_-Telco-Customer-Churn.csv", decimal=".")
 df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
 df["MonthlyCharges"] = pd.to_numeric(df["MonthlyCharges"], errors="coerce")
 
-def read_data():
-  tenurebins = [0, 6, 12, 24, 36, 48, 60, np.inf]
-  tenurelabels = ["Menos de 6 meses", "6 meses a 1 ano", "1 a 2 anos", "2 a 3 anos",
-                  "3 a 4 anos", "4 a 5 anos", "Mais de 5 anos"]
-  df["TenureGroup"] = pd.cut(df["tenure"], bins=tenurebins, labels=tenurelabels, right=True, include_lowest=True)
-  monthlymean = df["MonthlyCharges"].mean()
-  df["MonthlyGroup"] = np.where(df["MonthlyCharges"] >= monthlymean, "Acima da Média", "Abaixo da Média")
-  totalmean = df["TotalCharges"].mean()
-  df["TotalGroup"] = np.where(df["TotalCharges"] >= totalmean, "Acima da Média", "Abaixo da Média")
+tenurebins = [0, 6, 12, 24, 36, 48, 60, np.inf]
+tenurelabels = ["Menos de 6 meses", "6 meses a 1 ano", "1 a 2 anos", "2 a 3 anos",
+                "3 a 4 anos", "4 a 5 anos", "Mais de 5 anos"]
+df["TenureGroup"] = pd.cut(df["tenure"], bins=tenurebins, labels=tenurelabels, right=True, include_lowest=True)
+monthlymean = df["MonthlyCharges"].mean()
+df["MonthlyGroup"] = np.where(df["MonthlyCharges"] >= monthlymean, "Acima da Média", "Abaixo da Média")
+totalmean = df["TotalCharges"].mean()
+df["TotalCharges"] = df["TotalCharges"].fillna(df["TotalCharges"].mean())
+df["TotalGroup"] = np.where(df["TotalCharges"] >= totalmean, "Acima da Média", "Abaixo da Média")
 
+def read_data():
   a = df[df["Churn"] == "Yes"]
   print(df["TenureGroup"].value_counts())
   # gchurn = a["gender"].value_counts() / df["gender"].value_counts()
@@ -140,4 +148,46 @@ def read_data():
   # plots_part_two()
   plots_part_three()
 
-read_data()
+def logistic_regression_model():
+  # limpar dados de colunas com "sub serviços"
+  sub_services = ["MultipleLines", "OnlineSecurity", "OnlineBackup", "DeviceProtection",
+                           "TechSupport", "StreamingTV", "StreamingMovies"]
+  for i in sub_services:
+    df[i] = df[i].replace("No internet service", "No")
+    df[i] = df[i].replace("No phone service", "No")
+
+# transformar colunas em binárias e converter valores contínuos para desvio padrão
+  df_encoded = pd.get_dummies(df, columns=["gender", "SeniorCitizen", "Partner", "Dependents",
+                                           "PhoneService", "MultipleLines", "InternetService", "OnlineSecurity",
+                                           "OnlineBackup", "DeviceProtection", "TechSupport", "StreamingTV",
+                                           "StreamingMovies", "Contract", "PaperlessBilling", "PaymentMethod"],
+                                           drop_first=True, dtype=int)
+  continuous_numbers = ["tenure", "MonthlyCharges"]
+  scaler = StandardScaler() # para colunas com vários números como tenure (permanência)
+  df_encoded[continuous_numbers] = scaler.fit_transform(df_encoded[continuous_numbers]) # aplicar desvio padrão
+
+# criando o modelo e verificando redundâncias
+  y = df_encoded["Churn"] # o alvo para treinar o modelo
+  X = df_encoded.drop(["Churn", "TenureGroup", "MonthlyGroup", "TotalGroup",
+                       "TotalCharges", "customerID"], axis=1) # elementos para treinar o modelo, menos exceções
+  # x_vif = X
+  # vif_data = pd.DataFrame()
+  # vif_data["feature"] = x_vif.columns
+  # vif_data["VIF"] = [variance_inflation_factor(x_vif.values, i)
+  #                           for i in range(len(x_vif.columns))] 
+  # print(vif_data.sort_values(ascending=False, by="VIF"))
+
+# treinando e testando o modelo, printando coeficientes, dados de precisão e matriz
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) # testar 20% dos dados
+  model = LogisticRegression(class_weight="balanced", solver="liblinear", random_state=42) # selecionar tipo
+  model.fit(X_train, y_train) # treinar o modelo
+  #
+  coefficients = pd.Series(model.coef_[0], index=X.columns)
+  print(np.exp(coefficients.sort_values(ascending=False)))
+  #
+  y_pred = model.predict(X_test)
+  print(classification_report(y_test, y_pred))
+  print(confusion_matrix(y_test, y_pred))
+
+# read_data()
+logistic_regression_model()

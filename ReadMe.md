@@ -20,7 +20,7 @@ O churn nada mais é do que a evasão ou cancelamento dos serviços da empresa p
 A liderança da empresa toma as melhores medidas baseado nas sugestões de um analista (de dados ou negócios), que surgem a partir de um levantamento de dados sobre os clientes da empresa.
 
 # Levantamento de Dados
-Esse projeto se dividirá em três partes: O início em SQL, os resultados e relações entre colunas em Python, e os aprofundamentos em Power BI.
+Esse projeto se dividirá em três partes: O início em SQL e mais os resultados e relações entre colunas em Python, os aprofundamentos e análises em Power BI, e a confirmação dessas análises utilizando um modelo de regressão logística novamente em python.
 
 Antes de qualquer coisa, caso precisemos expandir nossa base ou fazer queries nela, criaremos uma tabela com esses dados no PostgreSQL. O arquivo "**0-CSVtoPSQL.sql**" no repositório mostra como isso é feito.
 
@@ -179,8 +179,29 @@ Na última página, temos o a quantidade de clientes por taxas totais e o tamanh
 
 Um passo extra ideal seriam estudos de causalidade. Isto é, pequenas pesquisas com clientes que estão cancelando o serviço para saber o motivo a fim de se ter uma análise mais completa e tomar melhores decisões.
 
+# Confirmação e/ou retificação das análises
+
+Voltando ao python, chega então a hora de verificar nossas análises. Isso é feito através de um modelo de regressão logística, cujo objetivo é nos permitir interpretar a influência de cada variável através de uma lista de razão de chances. Adicionalmente obteremos métricas de classificação do modelo para testes em clientes futuros, além de uma matriz de confusão que reflete esse modelo.
+
+Antes disso, ocorrerá uma limpeza de dados específica para essa tarefa, onde mesclaremos os valores "No internet service" e "No phone service" com os valores "No", a fim de reduzir redundância.
+
+Após criar, treinar e testar o modelo com as colunas relevantes temos então o resultado na imagem a seguir, com os coeficientes logarítmicos (log-odds) já convertidos em razões de chances.
+
+![logreg_output.png](logreg_output.png)
+Valores acima de 1 significa um aumento na probabilidade de churn enquanto que abaixo significa uma diminuição.
+
+Ao analisar os valores, logo vemos que a taxa de churn para quem assina o serviço de fibra ótica é aproximadamente 2.44 ou 144% maior do que a base (isto é, quem assina DSL), o que comprova nossa análise anterior.
+
+O fato de um cliente ter dependentes diminui a taxa de churn em aproximadamente 15%, como mostra a imagem, mas o fato de ter parceiros não muda praticamente nada. Isso sugere que essas análises iniciais sofreram com a multicolinearidade, e talvez seja melhor usar os recursos da empresa com outros clientes.
+
+Quanto aos clientes idosos, percebe-se um aumento de 17% na probabilidade de churn, o que comprova nossa análise de que idosos cancelam com mais frequência, mas não é um número tão grande quanto o imaginado.
+
+A lista também mostra que clientes que contratam os serviços como segurança online, backup, etc. tem menos chances de cancelar, comprovando nossa análise. Porém, os que contratam serviços de streaming tem chances muito maiores de darem churn, com um aumento de 30% para StreamingTV e 45% para StreamingMovies.
+
+E por último, concluímos que os contratos realmente diminuem absurdamente a quantidade de churn, com o contrato de um ano reduzindo a probabilidade base em 50% e o contrato de dois anos reduz em 77%. O tempo de permanência também reduz em 53% a chances de churn a cada desvio padrão (nesse caso, seria cerca de 24 meses).
+
 # O Que Aprendi e Conclusões
 
 Aprendi a utilizar o editor do Power Query no Power BI, melhorei meus conhecimentos práticos sobre pandas e matplotlib, SQL, e ferramentas gerais dentro do próprio Power BI. Personalizei as páginas a fim de deixá-las limpas e fáceis de se visualizar. Soube escolher dados relevantes no processo de levantamento de dados.
 
-Fiz minhas análises causais, com hipóteses baseadas nos dados cruzados do arquivo principal CSV. Elaborei soluções a fim de amenizar o churn com base nas análises feitas.
+Fiz minhas análises causais, com hipóteses baseadas nos dados cruzados do arquivo principal CSV. Elaborei soluções a fim de amenizar o churn com base nas análises feitas, e por último verifiquei minhas análises utilizando um modelo de regressão logística, corrigindo as necessárias e confirmando as corretas.
