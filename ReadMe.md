@@ -206,9 +206,9 @@ No final da imagem temos uma simples matriz de confusão.
 
 # Dados para Stakeholders
 
-Se, após todas as recomendações, a taxa de churn for reduzida de 26,5% para 22% (o que é uma projeção conservadora), isso seria uma redução de 1869 para 1549 clientes que deram churn, o que evita a perda de exatamente 300 clientes.
+Se, após todas as recomendações, a taxa de churn for reduzida de 26,5% para 22% (o que é uma projeção conservadora), isso seria uma redução de 1869 para 1549 clientes que deram churn, o que evita a perda de 320 clientes.
 
-Como cada cliente que deu churn corresponde a um rendimento médio mensal de $74,44, então há uma retenção de $22332 sem contar o custo de aquisição de clientes que também não precisará ser gasto para compensar 300 clientes que teriam saído.
+Como cada cliente que deu churn corresponde a um rendimento médio mensal de $74,44, então há uma retenção de $23820 sem contar o custo de aquisição de clientes que também não precisará ser gasto para compensar 320 clientes que teriam saído.
 
 Há também o valor de vida médio por cliente. Nesse caso, usando a fórmula (Taxas mensais de churn / Taxa de churn), veremos que antes das recomendações temos um valor de 280,90. Após as recomendações esse valor sobe para 338,36, o que corresponde a um aumento de 20,5% de valor médio por cliente.
 
