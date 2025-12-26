@@ -200,10 +200,17 @@ A lista também mostra que clientes que contratam os serviços como segurança o
 
 E por último, concluímos que os contratos realmente diminuem absurdamente a quantidade de churn, com o contrato de um ano reduzindo a probabilidade base em 50% e o contrato de dois anos reduz em 77%. O tempo de permanência também reduz em 53% a chances de churn a cada desvio padrão (nesse caso, seria cerca de 24 meses).
 
-![logreg_output.png](logreg_output.png)
 Quanto aos outros elementos da imagem, logo abaixo da lista, temos as métricas de classificação. Pelo fato de o modelo se basear em uma tabela de churn com muito mais clientes permanecendo do que saindo, temos um desbalanceamento de classe. Por isso, foi usado o atributo class_weight="balanced" que busca atribuir a mesma importância tanto para clientes que dão churn quanto para os que não dão. Isso sacrifica um pouco da precisão para obter mais recall nos clientes que dão churn.
 
 No final da imagem temos uma simples matriz de confusão.
+
+# Dados para Stakeholders
+
+Se, após todas as recomendações, a taxa de churn for reduzida de 26,5% para 22% (o que é uma projeção conservadora), isso seria uma redução de 1869 para 1549 clientes que deram churn, o que evita a perda de exatamente 300 clientes.
+
+Como cada cliente que deu churn corresponde a um rendimento médio mensal de $74,44, então há uma retenção de $22332 sem contar o custo de aquisição de clientes que também não precisará ser gasto para compensar 300 clientes que teriam saído.
+
+Há também o valor de vida médio por cliente. Nesse caso, usando a fórmula (Taxas mensais de churn / Taxa de churn), veremos que antes das recomendações temos um valor de 280,90. Após as recomendações esse valor sobe para 338,36, o que corresponde a um aumento de 20,5% de valor médio por cliente.
 
 # O Que Aprendi e Conclusões
 
